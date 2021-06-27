@@ -71,7 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     backgroundColor: Colors.black,
                     backgroundImage: image == null
                         ? (appUser.pictureUrl == null
-                            ? AssetImage('assets/google_logo.png')
+                            ? AssetImage('assets/deafultImage.png')
                             : NetworkImage(appUser.pictureUrl))
                         : FileImage(image),
                   ),

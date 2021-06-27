@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
                       radius: 40,
                       backgroundColor: Colors.black,
                       backgroundImage: appUser.pictureUrl == null
-                          ? AssetImage('assets/google_logo.png')
+                          ? AssetImage('assets/defaultImage.png')
                           : NetworkImage(appUser.pictureUrl),
                     ),
                     SizedBox(
