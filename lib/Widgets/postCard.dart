@@ -32,7 +32,7 @@ class PostCard extends StatelessWidget {
                 radius: 30,
                 backgroundColor: Colors.black,
                 backgroundImage: post.userPicture == null
-                    ? AssetImage('assets/google_logo.png')
+                    ? AssetImage('assets/defaultImage.png')
                     : NetworkImage(post.userPicture),
               ),
               tileColor: Colors.black,
