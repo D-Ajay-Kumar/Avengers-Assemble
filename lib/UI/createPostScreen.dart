@@ -88,13 +88,22 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 child: Container(
                   height: deviceHeight * 0.5,
                   width: deviceWidth * 0.9,
-                  color: Colors.grey,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1.5,
+                      color: kSecondaryColor,
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
+                    ),
+                  ),
                   child: image != null
                       ? Image.file(image)
                       : Center(
                           child: Icon(
                             Icons.add,
                             size: 50,
+                            color: Colors.white,
                           ),
                         ),
                 ),

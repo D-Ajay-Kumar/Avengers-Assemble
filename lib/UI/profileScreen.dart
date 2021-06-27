@@ -1,4 +1,5 @@
 import 'package:avg_media/UI/editProfileScreen.dart';
+import 'package:avg_media/UI/postDetailsScreen.dart';
 import 'package:avg_media/Widgets/lineButton.dart';
 import 'package:avg_media/globals.dart';
 import 'package:avg_media/models/appUser.dart';
@@ -102,12 +103,21 @@ class ProfileScreen extends StatelessWidget {
                   children: List.generate(
                     postsList.length,
                     (index) {
-                      return Container(
-                        height: deviceHeight * 0.29,
-                        width: deviceHeight * 0.29,
-                        child: Image.network(
-                          postsList[index].url,
-                          fit: BoxFit.cover,
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) {
+                              return PostDetailsScreen(post: postsList[index]);
+                            }),
+                          );
+                        },
+                        child: Container(
+                          height: deviceHeight * 0.29,
+                          width: deviceHeight * 0.29,
+                          child: Image.network(
+                            postsList[index].url,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       );
                     },

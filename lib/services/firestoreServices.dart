@@ -1,4 +1,8 @@
+import 'dart:collection';
+import 'dart:convert';
+
 import 'package:avg_media/models/appUser.dart';
+import 'package:avg_media/models/comment.dart';
 import 'package:avg_media/models/post.dart';
 import 'package:avg_media/providers/postsProvider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -94,28 +98,36 @@ class FirestoreServices {
   Future<void> uploadComment({
     @required String postId,
     @required String username,
-    @required Map comments,
+    List<dynamic> commentsList,
   }) async {
-    final postDS =
-        await firebaseFirestore.collection('COMMENTS').doc(postId).get();
-    final data = postDS.data();
-    data.addEntries(
-      [
-        // {username: comments},
-      ],
-    );
+    List<Map> commentsMap = [];
+    for (Comment comment in commentsList) {
+      commentsMap.add(comment.toJson());
+    }
+
+    print(commentsMap);
+
     firebaseFirestore.collection('COMMENTS').doc(postId).update({
-      'comments': comments,
+      'comments': commentsMap,
     });
   }
 
-  Future<Map> downloadComment({@required String postId}) async {
+  Future<List<Comment>> downloadComment({@required String postId}) async {
     DocumentSnapshot commentsDS =
         await firebaseFirestore.collection('COMMENTS').doc(postId).get();
 
     final Map data = commentsDS.data();
-    final Map comments = data['commentsss'];
-    print(comments);
-    return comments;
+    final List<dynamic> comments = data['comments'];
+    List<Comment> commentsList = [];
+
+    if (comments != null) {
+      comments.forEach(
+        (element) {
+          commentsList.add(Comment.fromJson(element));
+        },
+      );
+    }
+
+    return commentsList;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:avg_media/Widgets/titleFormField.dart';
 import 'package:avg_media/models/appUser.dart';
+import 'package:avg_media/models/comment.dart';
 import 'package:avg_media/models/post.dart';
 import 'package:avg_media/providers/authProvider.dart';
 import 'package:avg_media/services/firestoreServices.dart';
@@ -16,14 +17,14 @@ class PostDetailsScreen extends StatefulWidget {
 }
 
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
-  Map<dynamic, dynamic> comments;
-
   final TextEditingController commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final AppUser appUser =
         Provider.of<AuthProvider>(context, listen: false).getAppUser;
+
+    List<dynamic> commentsList;
 
     return Scaffold(
       appBar: AppBar(
@@ -41,42 +42,61 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                   FirestoreServices().downloadComment(postId: widget.post.id),
               builder: (_, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  comments = snapshot.data;
+                  commentsList = snapshot.data;
                   return Column(
-                    children: comments.entries.map(
-                      (user) {
-                        List<dynamic> userComments = user.value;
-                        List.generate(
-                          userComments.length,
-                          (index) {
-                            print(index.toString() + ' ' + userComments[index]);
-                            return ListTile(
-                              title: Text(
-                                user.key.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.comment_rounded,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              commentsList.length.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                              subtitle: Text(
-                                userComments[index].toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      for (Comment comment in commentsList)
+                        ListTile(
+                          title: Text(
+                            comment.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            comment.comment,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                    ],
                   );
                 }
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.pinkAccent,
+                  ),
                 );
               },
             ),
             TitleFormField(
-              title: 'Comments',
+              title: 'Comment',
               textEditingController: commentController,
             ),
             SizedBox(
@@ -94,16 +114,33 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                     ),
                   ),
                   onTap: () async {
-                    comments[appUser.name] = 'Hello';
-                    print(comments);
-                    // await FirestoreServices().uploadComment(
-                    //   username: appUser.name,
-                    //   postId: widget.post.id,
-                    //   comments: comments,
-                    // );
+                    Comment comment = Comment(
+                      name: appUser.name,
+                      comment: commentController.text,
+                      date: DateTime.now()
+                          .toUtc()
+                          .toString()
+                          .replaceFirst('.000Z', '')
+                          .split(' ')[0],
+                    );
+
+                    commentController.clear();
+                    setState(() {
+                      commentsList.add(comment);
+                    });
+
+                    await FirestoreServices().uploadComment(
+                      username: appUser.name,
+                      postId: widget.post.id,
+                      commentsList: commentsList,
+                      // comments: comments,
+                    );
                   },
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20,
             ),
           ],
         ),
