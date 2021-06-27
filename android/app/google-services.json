@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "931509052608",
+    "project_id": "avenger-social-media",
+    "storage_bucket": "avenger-social-media.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931509052608:android:821ee1da025b440dcc7925",
+        "android_client_info": {
+          "package_name": "com.example.avg_media"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931509052608-8rvdcg5v94q83qn255158p6k3jhu3jpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.avg_media",
+            "certificate_hash": "b7abffc50d6f1195733a4ad1681d2b491878106c"
+          }
+        },
+        {
+          "client_id": "931509052608-3ac7d2qmtsh39fld9lsrkf89vu3gkes3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvbCqf9iscnxL_25SQg8byfowdOQ20C0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931509052608-3ac7d2qmtsh39fld9lsrkf89vu3gkes3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
