@@ -72,16 +72,15 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                       for (Comment comment in commentsList)
                         ListTile(
                           title: Text(
-                            comment.name,
+                            '@${comment.name}  ${comment.comment}',
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           subtitle: Text(
-                            comment.comment,
+                            comment.date,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white38,
                             ),
                           ),
                         ),
